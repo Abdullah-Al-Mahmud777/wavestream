@@ -26,6 +26,8 @@ services:
       - key: QUEUE_CONNECTION
         value: sync
       - key: LOG_CHANNEL
-        value: stack
+        value: errorlog
       - key: LOG_LEVEL
         value: error
+      - key: SESSION_LIFETIME
+        value: 120

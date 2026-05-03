@@ -32,10 +32,19 @@ COPY . /var/www/html
 # Copy existing application directory permissions
 COPY --chown=www-data:www-data . /var/www/html
 
+# Create .env file from .env.render if .env doesn't exist
+RUN if [ ! -f .env ]; then cp .env.render .env; fi
+
 # Install dependencies
 RUN composer install --no-dev --optimize-autoloader --no-interaction
 
-# Set permissions
+# Create necessary directories and set permissions
+RUN mkdir -p /var/www/html/storage/logs \
+    /var/www/html/storage/framework/cache \
+    /var/www/html/storage/framework/sessions \
+    /var/www/html/storage/framework/views \
+    /var/www/html/bootstrap/cache
+
 RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
 RUN chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache
 
@@ -52,11 +61,38 @@ RUN echo '<Directory /var/www/html/public>\n\
 
 # Create startup script
 RUN echo '#!/bin/bash\n\
+# Create storage directories\n\
+mkdir -p /var/www/html/storage/logs\n\
+mkdir -p /var/www/html/storage/framework/cache\n\
+mkdir -p /var/www/html/storage/framework/sessions\n\
+mkdir -p /var/www/html/storage/framework/views\n\
+mkdir -p /var/www/html/bootstrap/cache\n\
+\n\
+# Set permissions\n\
+chown -R www-data:www-data /var/www/html/storage\n\
+chown -R www-data:www-data /var/www/html/bootstrap/cache\n\
+chmod -R 775 /var/www/html/storage\n\
+chmod -R 775 /var/www/html/bootstrap/cache\n\
+\n\
+# Create SQLite database if not exists\n\
+touch /var/www/html/database/database.sqlite\n\
+chown www-data:www-data /var/www/html/database/database.sqlite\n\
+chmod 664 /var/www/html/database/database.sqlite\n\
+\n\
+# Clear and cache config\n\
+php artisan config:clear\n\
+php artisan cache:clear\n\
 php artisan config:cache\n\
 php artisan route:cache\n\
 php artisan view:cache\n\
-php artisan storage:link\n\
+\n\
+# Create storage link\n\
+php artisan storage:link || true\n\
+\n\
+# Run migrations\n\
 php artisan migrate --force\n\
+\n\
+# Start Apache\n\
 apache2-foreground' > /usr/local/bin/start.sh
 
 RUN chmod +x /usr/local/bin/start.sh
