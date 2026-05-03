@@ -1,14 +1,4 @@
 
-@csrf: ফর্মে CSRF টোকেন যুক্ত করতে।
-
-@else: @if বা @elseif এর পর বিকল্প শাখা নির্ধারণ করতে।
-
-@auth: ব্যবহারকারী লগইন থাকলে কোড এক্সিকিউট হয়।
-
-@guest: ব্যবহারকারী লগইন না থাকলে কোড এক্সিকিউট হয়।
-
-@endif: @if, @elseif, @else ব্লক শেষ করতে।
-
 Wavestream - Music Streaming Platform
 
 Wavestream is a modern music streaming platform built with Laravel and Bootstrap. It allows users to upload, stream, and manage their music collection.
@@ -22,7 +12,7 @@ Playlist Management
 User Feedback System
 Audio Player with Controls
 Search Functionality
- User Profiles
+User Profiles
 
 Technologies Used
 

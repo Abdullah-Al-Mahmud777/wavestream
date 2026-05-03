@@ -9,8 +9,13 @@ class FeedbackController extends Controller
 {
     public function index()
     {
-        $feedback = Feedback::with('user')->latest()->paginate(10);
+        // Check if admin is accessing
+        if (auth()->check() && auth()->user()->is_admin) {
+            $feedback = Feedback::with('user')->latest()->paginate(10);
+            return view('admin.feedback.index', compact('feedback'));
+        }
 
+        $feedback = Feedback::with('user')->latest()->paginate(10);
         return view('feedback.index', compact('feedback'));
     }
 

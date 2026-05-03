@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('title', 'Manage Music')
+@section('page-title', 'Music Library')
 
 @section('content')
 <div class="container-fluid">

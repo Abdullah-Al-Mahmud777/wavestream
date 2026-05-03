@@ -1,13 +1,9 @@
-@extends('layouts.app')
+@extends('layouts.admin')
+
+@section('page-title', 'Dashboard Overview')
 
 @section('content')
-<div class="container-fluid py-4">
-    <div class="row mb-4">
-        <div class="col-12">
-            <h1 class="text-white">Admin Dashboard</h1>
-        </div>
-    </div>
-
+<div class="container-fluid">
     <!-- Stats Cards -->
     <div class="row mb-4">
         <div class="col-xl-3 col-md-6 mb-4">
@@ -150,42 +146,97 @@
 </div>
 
 <style>
-    .icon-circle {
-        width: 48px;
-        height: 48px;
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 1.25rem;
-    }
-
     .card {
-        transition: transform 0.3s ease;
+        background: #1e1e1e;
+        border: 1px solid #282828;
+        border-radius: 12px;
+        transition: all 0.3s ease;
     }
 
     .card:hover {
         transform: translateY(-5px);
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    }
+
+    .icon-circle {
+        width: 55px;
+        height: 55px;
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.5rem;
+    }
+
+    .bg-primary {
+        background: linear-gradient(135deg, #1db954, #1ed760) !important;
+    }
+
+    .bg-success {
+        background: linear-gradient(135deg, #00d4ff, #0099ff) !important;
+    }
+
+    .bg-info {
+        background: linear-gradient(135deg, #a855f7, #ec4899) !important;
+    }
+
+    .bg-warning {
+        background: linear-gradient(135deg, #f59e0b, #ef4444) !important;
+    }
+
+    .text-muted {
+        color: #b3b3b3 !important;
+        font-size: 12px;
+        font-weight: 500;
+        letter-spacing: 0.5px;
+    }
+
+    .card-header {
+        background: rgba(29, 185, 84, 0.05);
+        border-bottom: 1px solid #282828;
+        padding: 15px 20px;
+    }
+
+    .card-header h5 {
+        font-size: 16px;
+        font-weight: 600;
+        margin: 0;
     }
 
     .table {
         margin-bottom: 0;
+        color: #ffffff;
     }
 
     .table th {
         border-top: none;
+        border-bottom: 1px solid #282828;
         font-weight: 600;
         text-transform: uppercase;
-        font-size: 0.75rem;
+        font-size: 11px;
         letter-spacing: 0.5px;
+        color: #b3b3b3;
+        padding: 12px 15px;
     }
 
     .table td {
         vertical-align: middle;
+        border-bottom: 1px solid #282828;
+        padding: 12px 15px;
+        font-size: 14px;
     }
 
     .table-hover tbody tr:hover {
-        background-color: rgba(255, 255, 255, 0.1);
+        background-color: rgba(29, 185, 84, 0.05);
+    }
+
+    .table-dark {
+        --bs-table-bg: transparent;
+    }
+
+    h2 {
+        font-size: 32px;
+        font-weight: 700;
     }
 </style>
 @endsection 

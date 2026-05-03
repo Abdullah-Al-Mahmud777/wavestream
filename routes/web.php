@@ -18,6 +18,11 @@ Route::post('/logout', [App\Http\Controllers\Auth\LoginController::class, 'logou
 Route::get('/register', [App\Http\Controllers\Auth\RegisterController::class, 'showRegistrationForm'])->name('register');
 Route::post('/register', [App\Http\Controllers\Auth\RegisterController::class, 'register']);
 
+// Admin Authentication routes
+Route::get('/admin/login', [App\Http\Controllers\Admin\AdminAuthController::class, 'showLoginForm'])->name('admin.login');
+Route::post('/admin/login', [App\Http\Controllers\Admin\AdminAuthController::class, 'login'])->name('admin.login.post');
+Route::post('/admin/logout', [App\Http\Controllers\Admin\AdminAuthController::class, 'logout'])->name('admin.logout');
+
 // Default route
 Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 

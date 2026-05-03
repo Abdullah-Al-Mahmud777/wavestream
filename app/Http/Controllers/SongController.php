@@ -15,10 +15,40 @@ class SongController extends Controller
         $this->middleware('auth');
     }
 
-    public function index()
+    public function index(Request $request)
     {
-        $songs = Song::with('category')->paginate(12);
-        return view('songs.index', compact('songs'));
+        $query = Song::with('category');
+
+        // Search filter
+        if ($request->filled('search')) {
+            $search = $request->search;
+            $query->where(function($q) use ($search) {
+                $q->where('title', 'like', "%{$search}%")
+                  ->orWhere('artist', 'like', "%{$search}%");
+            });
+        }
+
+        // Category filter
+        if ($request->filled('category')) {
+            $query->where('category_id', $request->category);
+        }
+
+        // Sort
+        switch ($request->get('sort', 'latest')) {
+            case 'oldest':
+                $query->oldest();
+                break;
+            case 'name':
+                $query->orderBy('title');
+                break;
+            default:
+                $query->latest();
+        }
+
+        $songs = $query->get();
+        $categories = Category::all();
+        
+        return view('songs.index', compact('songs', 'categories'));
     }
 
     public function show(Song $song)
